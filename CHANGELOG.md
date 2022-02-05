@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [UNRELEASED]
 (nothing yet)
 
-## [1.0.0] - 0000-00-00
+## [2.0.0] - 2022-02-05
+### Changed
+- broken logic in createFromRelative
+
+## [1.0.0] - 2021-10-23
 ### Added
 - first version

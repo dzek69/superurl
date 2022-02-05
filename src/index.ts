@@ -1,19 +1,17 @@
-import urlJoin from "url-join";
-
 const last = <T>(arr: T[]) => {
     return arr[arr.length - 1];
 };
 
 class SuperURL extends URL {
-    public constructor(rawUrl: string) {
-        if (!rawUrl) {
+    public constructor(url: string, base?: string) {
+        if (!url) {
             throw new Error("SuperURL requires an url");
         }
-        let url = rawUrl;
-        if (rawUrl.startsWith("//")) {
-            url = "http:" + url;
+        let fixedUrl = url;
+        if (!base && url.startsWith("//")) {
+            fixedUrl = "http:" + fixedUrl;
         }
-        super(url);
+        super(fixedUrl, base);
     }
 
     public isWithinDomain(domain: string) {
@@ -90,15 +88,8 @@ class SuperURL extends URL {
         if (relativeUrl.startsWith("//")) {
             return new SuperURL(this.protocol + relativeUrl);
         }
-        if (relativeUrl.startsWith("/")) {
-            const newUrl = this.clone();
-            newUrl.pathname = relativeUrl;
-            return newUrl;
-        }
-        // @TODO support for hash
-        const u = this.clone();
-        u.pathname = urlJoin(u.pathname, "/", relativeUrl);
-        return u;
+
+        return new SuperURL(relativeUrl, this.href);
     }
 }
 
